@@ -2,15 +2,9 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Image, Button, Picker, Slider, Text, TextInput, TouchableOpacity } from 'react-native';
 import 'firebase/firestore'
 import 'firebase/storage'
+import 'firebase/database'
 import * as firebase from 'firebase';
 import * as ImagePicker from 'expo-image-picker';
-import * as Random from 'expo-random';
-import ENV from '../env';
-
-
-if (!firebase.apps.length) {
-    firebase.initializeApp(ENV);
-}
 
 
 
@@ -24,16 +18,15 @@ const imagensCounterRef = database.ref('imagensCounter');
 
 const AdicionarRestauranteTela = (props) => {
 
-
     const [nome, setNome] = useState('');
 
     const [cidade, setCidade] = useState('');
 
-    const [fotoURI, setFotoURI] = useState();
-
     const [categoria, setCategoria] = useState('Categoria');
 
     const [preco, setPreco] = useState(1);
+
+    const [fotoURI, setFotoURI] = useState();
 
     const tirarFoto = async () => {
         let foto = await ImagePicker.launchImageLibraryAsync({
@@ -55,7 +48,9 @@ const AdicionarRestauranteTela = (props) => {
             cidade: cidade,
             fotoURL: downloadURL,
             preco: preco,
-            categoria: categoria
+            categoria: categoria,
+            avaliacaoMedia: 0,
+            qtdeAvaliacoes: 0
         });
 
     }
@@ -83,7 +78,6 @@ const AdicionarRestauranteTela = (props) => {
                     style={estilos.categoriaPicker}
                     onValueChange={(value, index) => {
                         setCategoria(value)
-                        alert(value);
                     }}
                     mode="dropdown">
                     <Picker.Item label="Categoria" value="Categoria" />

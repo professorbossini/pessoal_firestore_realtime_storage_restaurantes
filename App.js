@@ -3,6 +3,8 @@ import { StyleSheet } from 'react-native';
 import Navigator from './Navigator';
 
 
+
+
 export default function App() {
   return (
     <Navigator />
